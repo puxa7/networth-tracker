@@ -1,3 +1,4 @@
 # NetWorth tracker
 
-lorem ipsum
+## requirements.txt
+pip install -r .\requirements.txt  
