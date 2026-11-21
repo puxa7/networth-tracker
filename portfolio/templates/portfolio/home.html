@@ -10,6 +10,9 @@
 
     <header>
         <p>Logged in as: <strong>{{ request.user.username }}</strong></p>
+
+        <a href="{% url 'settings' %}"><button type="button">Settings</button></a>
+
         <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
             <button type="submit">Logout</button>
@@ -22,25 +25,25 @@
         <h1>Your accounts</h1>
         <h2>Net Worth: {{ net_worth|floatformat:2 }}</h2>
 
-        
+
         <form action="{% url 'refresh_prices' %}" method="post">
             {% csrf_token %}
             <button type="submit">Refresh prices (Yahoo Finance)</button>
         </form>
 
-    <ul>
-        {% for account in accounts %}
-        <li>
-            <a href="{% url 'account_detail' account.id %}">{{ account.name }}</a>
-        </li>
-        {% empty %}
-        <li>You don't have any accounts yet. Add your first account below.</li>
-        {% endfor %}
-    </ul>
+        <ul>
+            {% for account in accounts %}
+            <li>
+                <a href="{% url 'account_detail' account.id %}">{{ account.name }}</a>
+            </li>
+            {% empty %}
+            <li>You don't have any accounts yet. Add your first account below.</li>
+            {% endfor %}
+        </ul>
 
-    <a href="{% url 'add_account' %} ">Add account</a>
+        <a href="{% url 'add_account' %} ">Add account</a>
 
-    <div><br></div>
+        <div><br></div>
 
     </main>
 

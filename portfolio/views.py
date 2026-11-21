@@ -3,8 +3,11 @@ from .forms import AccountForm, AssetForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from .models import Account, Asset
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 import yfinance as yf
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib.auth import logout
 
 
 @login_required
@@ -86,3 +89,59 @@ def edit_account_view(request, pk):
     if form.is_valid():
         form.save()
     return redirect("account_detail", pk=account.id)
+
+
+def register_view(request):
+    if request.user.is_authenticated:
+        return redirect("home")
+        
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("home")
+    else:
+            form = UserCreationForm()
+            
+    return render(request, "portfolio/register.html", {"form": form})
+
+
+@login_required
+def settings_view(request):
+    return render(request, "portfolio/settings.html")
+
+
+@login_required
+@require_POST
+def delete_user_view(request):
+    user = request.user
+    logout(request)
+    user.delete()
+    return redirect("login")
+
+
+@login_required
+@require_POST
+def delete_account_view(request, pk):
+    account = get_object_or_404(Account, id=pk, user=request.user)
+    account.delete()
+    return redirect("home")
+
+
+@login_required
+@require_POST
+def edit_asset_quantity_view(request, pk):
+    asset = get_object_or_404(Asset, id=pk, account__user=request.user)
+    raw_quantity = request.POST.get("quantity")
+
+    try:
+        new_quantity = Decimal(raw_quantity)
+        if new_quantity > 0:
+            asset.quantity = new_quantity
+            asset.save()
+    except (InvalidOperation, TypeError):
+        # Ignorujemy błędnie wpisane dane, żeby nie wysypać widoku
+        pass
+
+    return redirect("account_detail", pk=asset.account.id)
