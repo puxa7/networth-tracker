@@ -3,11 +3,22 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>NetWorth</title>
 </head>
 
 <body>
-    <h3>Home</h3>
+    <h3>NetWorth</h3>
+
+    <ul>
+        {% for account in accounts %}
+        <li>
+            <a href="{% url 'account_detail' account.id %}">{{ account.name }}</a>
+        </li>
+        {% empty %}
+        <li>You don't have any accounts yet. Add your first account below.</li>
+        {% endfor %}
+    </ul>
+
     <a href="{% url 'add_account' %} ">Add account</a>
 
     <form action="{% url 'logout' %}" method="post">

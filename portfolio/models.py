@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from decimal import Decimal
 
 class Account(models.Model):
     name = models.CharField(max_length=100)
@@ -7,6 +8,15 @@ class Account(models.Model):
     
     def __str__(self):
         return f"{self.name}"
+    
+    @property
+    def total_value(self):
+        total = Decimal("0.00")
+        for asset in self.asset_set.all():
+            total += asset.total_value
+        return total
+    
+    
     
 class Asset(models.Model):
     name = models.CharField(max_length=100)
@@ -19,3 +29,6 @@ class Asset(models.Model):
     def __str__(self):
         return f"{self.name}"
     
+    @property
+    def total_value(self):
+        return self.quantity * self.price

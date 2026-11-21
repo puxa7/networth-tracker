@@ -1,0 +1,68 @@
+<h2>Account: {{ account.name }}</h2>
+<p><strong>Total account value: {{ account.total_value|floatformat:2 }}</strong></p>
+
+<!-- Button that opens a popup -->
+<button type="button" onclick="document.getElementById('assetModal').showModal()">
+    + Add asset
+</button>
+
+<p><a href="{% url 'home' %}">Back to account list</a></p>
+
+<!-- Table with assets -->
+<h3>Your assets</h3>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Ticker</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Currency</th>
+            <th>Total value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for asset in assets %}
+            <td>{{ asset.name }}</td>
+            <td>{{ asset.ticker }}</td>
+            <td>{{ asset.quantity|floatformat:2 }}</td>
+            <td>{{ asset.price|floatformat:2 }}</td>
+            <td>{{ asset.currency }}</td>
+            <td>{{ asset.total_value|floatformat:2 }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No assets</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+
+
+<!-- Popup (Modal) -->
+<dialog id="assetModal">
+    <h3>Add new asset</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Save</button>
+        <button type="button" onclick="document.getElementById('assetModal').close()">
+            Cancel
+        </button>
+    </form>
+</dialog>
+
+
+
+
+
+{% if form.errors %}
+<script>
+    document.getElementById('assetModal').showModal();
+</script>
+{% endif %}
