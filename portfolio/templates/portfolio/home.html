@@ -7,7 +7,26 @@
 </head>
 
 <body>
-    <h3>NetWorth</h3>
+
+    <header>
+        <p>Logged in as: <strong>{{ request.user.username }}</strong></p>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </header>
+
+    <hr>
+
+    <main>
+        <h1>Your accounts</h1>
+        <h2>Net Worth: {{ net_worth|floatformat:2 }}</h2>
+
+        
+        <form action="{% url 'refresh_prices' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Refresh prices (Yahoo Finance)</button>
+        </form>
 
     <ul>
         {% for account in accounts %}
@@ -21,10 +40,9 @@
 
     <a href="{% url 'add_account' %} ">Add account</a>
 
-    <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
+    <div><br></div>
+
+    </main>
 
 
 </body>

@@ -1,4 +1,29 @@
-<h2>Account: {{ account.name }}</h2>
+<h2>
+    Account: {{ account.name }}
+    <button type="button" onclick="document.getElementById('editAccountModal').showModal()">
+        Edit name
+    </button>
+</h2>
+
+
+
+<dialog id="editAccountModal">
+    <h3>Edit account name</h3>
+    <form action="{% url 'edit_account' account.id %}" method="post">
+        {% csrf_token %}
+        <p>
+            <label for="id_name">Account name:</label>
+            <input type="text" name="name" id="id_name" value="{{ account.name }}" required maxlength="100">
+        </p>
+        <button type="submit">Save</button>
+        <button type="button" onclick="document.getElementById('editAccountModal').close()">
+            Cancel
+        </button>
+    </form>
+</dialog>
+
+
+
 <p><strong>Total account value: {{ account.total_value|floatformat:2 }}</strong></p>
 
 <!-- Button that opens a popup -->
@@ -34,7 +59,7 @@
         </tr>
         {% empty %}
         <tr>
-            <td colspan="5">No assets</td>
+            <td colspan="6">No assets</td>
         </tr>
         {% endfor %}
     </tbody>
