@@ -1,23 +1,15 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
+<h3>Log In</h3>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Log In</title>
-</head>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Log In</button>
+</form>
 
-<body>
-    <h3>Log In</h3>
+<p>Don't have an account yet? <a href="{% url 'register' %}">Sign up</a></p>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Log In</button>
-    </form>
-
-    <p>Don't have an account yet? <a href="{% url 'register' %}">Sign up</a></p>
-
-</body>
-
-</html>
+{% endblock %}

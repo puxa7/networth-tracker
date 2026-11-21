@@ -1,40 +1,32 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Account Settings{% endblock %}
+{% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Account Settings</title>
-</head>
-<body>
+<p><a href="{% url 'home' %}">&larr; Back to home</a></p>
 
-    <p><a href="{% url 'home' %}">&larr; Back to home</a></p>
+<h1>Settings</h1>
 
-    <h1>Settings</h1>
-    <p>Username: <strong>{{ request.user.username }}</strong></p>
 
-    <hr>
+<section>
+    <h2>Danger Zone</h2>
+    <p>Deleting your account is permanent and will remove all your portfolios and assets.</p>
 
-    <section>
-        <h2>Danger Zone</h2>
-        <p>Deleting your account is permanent and will remove all your portfolios and assets.</p>
+    <button type="button" onclick="document.getElementById('deleteUserModal').showModal()">
+        Delete Account
+    </button>
 
-        <button type="button" onclick="document.getElementById('deleteUserModal').showModal()">
-            Delete Account
-        </button>
+    <dialog id="deleteUserModal">
+        <h3>Are you sure you want to delete your account?</h3>
+        <p>This action cannot be undone. All your data will be permanently deleted.</p>
 
-        <dialog id="deleteUserModal">
-            <h3>Are you sure you want to delete your account?</h3>
-            <p>This action cannot be undone. All your data will be permanently deleted.</p>
+        <form action="{% url 'delete_user' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Yes, permanently delete my account</button>
+            <button type="button" onclick="document.getElementById('deleteUserModal').close()">
+                Cancel
+            </button>
+        </form>
+    </dialog>
+</section>
 
-            <form action="{% url 'delete_user' %}" method="post">
-                {% csrf_token %}
-                <button type="submit">Yes, permanently delete my account</button>
-                <button type="button" onclick="document.getElementById('deleteUserModal').close()">
-                    Cancel
-                </button>
-            </form>
-        </dialog>
-    </section>
-
-</body>
-</html>
+{% endblock %}

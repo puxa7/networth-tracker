@@ -10,6 +10,18 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 
 
+
+def _update_assets_prices(assets):
+    for asset in assets:
+        try:
+            ticker_data = yf.Ticker(asset.ticker)
+            latest_price = ticker_data.fast_info["last_price"]
+            if latest_price:
+                asset.price = Decimal(str(round(latest_price, 6)))
+                asset.save()
+        except Exception:
+            continue
+
 @login_required
 def home_view(request):
     accounts = Account.objects.filter(user=request.user).prefetch_related("asset_set")
@@ -67,17 +79,7 @@ def add_account_view(request):
 @require_POST
 def refresh_prices_view(request):
     assets = Asset.objects.filter(account__user=request.user)
-    
-    for asset in assets:
-        try:
-            ticker_data = yf.Ticker(asset.ticker)
-            latest_price = ticker_data.fast_info["last_price"]
-            if latest_price:
-                asset.price = Decimal(str(round(latest_price, 6)))
-                asset.save()
-        except Exception:
-            continue
-    
+    _update_assets_prices(assets)
     return redirect("home")
 
 
@@ -141,7 +143,23 @@ def edit_asset_quantity_view(request, pk):
             asset.quantity = new_quantity
             asset.save()
     except (InvalidOperation, TypeError):
-        # Ignorujemy błędnie wpisane dane, żeby nie wysypać widoku
         pass
 
     return redirect("account_detail", pk=asset.account.id)
+
+
+@login_required
+@require_POST
+def delete_asset_view(request, pk):
+    asset = get_object_or_404(Asset, id=pk, account__user=request.user)
+    account_id = asset.account.id
+    asset.delete()
+    return redirect("account_detail", pk=account_id)
+
+
+@login_required
+@require_POST
+def refresh_account_prices_view(request, pk):
+    account = get_object_or_404(Account, id=pk, user=request.user)
+    _update_assets_prices(account.asset_set.all())
+    return redirect("account_detail", pk=account.id)

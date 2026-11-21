@@ -1,53 +1,27 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>NetWorth</title>
-    <link rel="stylesheet" href="{% static 'portfolio/style.css' %}">
-</head>
-<body>
+{% extends 'portfolio/base.html' %}
+{% block title %}NetWorth{% endblock %}
+{% block content %}
 
-    <header>
-        <p>Logged in as: <strong>{{ request.user.username }}</strong></p>
+<h1>Your accounts</h1>
+<h2>Net Worth: {{ net_worth|floatformat:2 }} USD</h2>
 
-        <a href="{% url 'settings' %}"><button type="button">Settings</button></a>
+<div class="actions">
+    <a href="{% url 'add_account' %}" class="btn">+ Add account</a>
 
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn-logout">Logout</button>
-        </form>
-    </header>
+    <form action="{% url 'refresh_prices' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn-secondary">Refresh prices</button>
+    </form>
+</div>
 
-    <hr>
+<ul>
+    {% for account in accounts %}
+    <li>
+        <a href="{% url 'account_detail' account.id %}">{{ account.name }}</a>
+    </li>
+    {% empty %}
+    <li>You don't have any accounts yet. Add your first account below.</li>
+    {% endfor %}
+</ul>
 
-    <main>
-        <h1>Your accounts</h1>
-        <h2>Net Worth: {{ net_worth|floatformat:2 }}</h2>
-
-
-        <form action="{% url 'refresh_prices' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Refresh prices (Yahoo Finance)</button>
-        </form>
-
-        <ul>
-            {% for account in accounts %}
-            <li>
-                <a href="{% url 'account_detail' account.id %}">{{ account.name }}</a>
-            </li>
-            {% empty %}
-            <li>You don't have any accounts yet. Add your first account below.</li>
-            {% endfor %}
-        </ul>
-
-        <a href="{% url 'add_account' %} ">Add account</a>
-
-        <div><br></div>
-
-    </main>
-
-
-</body>
-
-</html>
+{% endblock %}
