@@ -1,9 +1,9 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}NetWorth{% endblock %}
-{% block content %}
 
+{% block content %}
 <h1>Your accounts</h1>
-<h2>Net Worth: {{ net_worth|floatformat:2 }} {{ display_currency }}</h2>
+<p class="total-value">Net Worth: {{ net_worth|floatformat:2 }} {{ display_currency }}</p>
 
 <div class="actions">
     <a href="{% url 'add_account' %}" class="btn">+ Add account</a>
@@ -24,5 +24,4 @@
     <p>You don't have any accounts yet. Click "+ Add account" to create your first one.</p>
     {% endfor %}
 </div>
-
 {% endblock %}

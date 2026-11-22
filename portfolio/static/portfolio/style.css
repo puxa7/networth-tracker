@@ -1,32 +1,27 @@
+/* === Fundamentals and site layout === */
 body {
     font-family: system-ui, -apple-system, sans-serif;
     background-color: #f8fafc;
     color: #0f172a;
     max-width: 900px;
-    margin: 40px auto;
+    margin: 32px auto;
     padding: 0 20px;
     line-height: 1.5;
 }
 
-button {
-    background-color: #2563eb;
-    color: #ffffff;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
+h1 {
+    font-size: 26px;
+    margin: 0 0 8px 0;
 }
 
-button:hover {
-    background-color: #1d4ed8;
+h2 {
+    font-size: 18px;
+    margin: 0 0 12px 0;
 }
 
-input {
-    padding: 7px 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    font-size: 14px;
+h3 {
+    font-size: 18px;
+    margin: 0 0 16px 0;
 }
 
 a {
@@ -38,65 +33,66 @@ a:hover {
     text-decoration: underline;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    margin-top: 12px;
+.back-link {
+    margin: 0 0 16px 0;
+    font-size: 14px;
 }
 
-th, td {
-    padding: 10px 12px;
-    text-align: left;
+.total-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2563eb;
+    margin: 0 0 20px 0;
+}
+
+/* === Navigation === */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    margin-bottom: 28px;
     border-bottom: 1px solid #e2e8f0;
 }
 
-th {
-    background-color: #f1f5f9;
-    font-size: 13px;
-    color: #475569;
-}
-
-dialog {
-    border: none;
-    border-radius: 12px;
-    padding: 24px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-dialog::backdrop {
-    background: rgba(15, 23, 42, 0.5);
-}
-
-form p label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-form p input,
-form p select {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 7px 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-}
-
-.actions {
+.nav-links,
+.nav-user {
     display: flex;
-    gap: 10px;
     align-items: center;
-    margin: 16px 0;
+    gap: 16px;
+    font-size: 14px;
+}
+
+/* === Buttons === */
+button,
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 0 14px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+button:hover,
+.btn:hover {
+    background-color: #1d4ed8;
+    text-decoration: none;
 }
 
 .btn-secondary {
     background-color: #ffffff;
     color: #0f172a;
-    border: 1px solid #cbd5e1;
+    border-color: #cbd5e1;
 }
 
 .btn-secondary:hover {
@@ -111,42 +107,75 @@ form p select {
     background-color: #b91c1c;
 }
 
-a.btn {
-    display: inline-block;
-    background-color: #2563eb;
-    color: #ffffff;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 14px;
-    text-decoration: none;
+.actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 16px 0;
 }
 
-a.btn:hover {
-    background-color: #1d4ed8;
-    text-decoration: none;
+/* === Forms and containers === */
+.card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
-main > form {
+.card form {
     max-width: 360px;
 }
 
-
-
-.modal-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
+.auth-box {
+    max-width: 380px;
+    margin: 60px auto;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 24px;
 }
 
-.modal-footer .actions {
-    margin: 0;
+form p {
+    margin: 0 0 14px 0;
 }
 
-section > form {
-    max-width: 220px;
+form p label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
 }
 
+form p input,
+form p select {
+    width: 100%;
+    height: 36px;
+    padding: 0 10px;
+    font-family: inherit;
+    font-size: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+.helptext {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.errorlist {
+    color: #dc2626;
+    font-size: 13px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+}
+
+/* === Accounts main page === */
 .accounts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -164,12 +193,10 @@ section > form {
     padding: 16px 18px;
     color: #0f172a;
     text-decoration: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .account-card:hover {
     border-color: #2563eb;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
     text-decoration: none;
 }
 
@@ -182,4 +209,55 @@ section > form {
     font-size: 18px;
     font-weight: 700;
     color: #2563eb;
+}
+
+/* === Assets table === */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    margin-top: 12px;
+}
+
+th,
+td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background-color: #f1f5f9;
+    font-size: 13px;
+    color: #475569;
+}
+
+td:last-child {
+    text-align: right;
+}
+
+/* === Modals === */
+dialog {
+    border: none;
+    border-radius: 10px;
+    padding: 24px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+dialog::backdrop {
+    background: rgba(15, 23, 42, 0.5);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.modal-footer .actions {
+    margin: 0;
 }

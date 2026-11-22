@@ -1,29 +1,26 @@
 {% extends 'portfolio/base.html' %}
-
-{% block title %}{{ account.name }} account details{% endblock %}
+{% block title %}{{ account.name }}{% endblock %}
 
 {% block content %}
-<p><a href="{% url 'home' %}">&larr; Back to account list</a></p>
+<p class="back-link"><a href="{% url 'home' %}">&larr; Back to accounts</a></p>
 
-<h2>Account: {{ account.name }}</h2>
-<p><strong>Total account value: {{ account_total_value|floatformat:2 }} {{ display_currency }}</strong></p>
+<h1>{{ account.name }}</h1>
+<p class="total-value">Total value: {{ account_total_value|floatformat:2 }} {{ display_currency }}</p>
 
 <div class="actions">
-    <button type="button" onclick="document.getElementById('assetModal').showModal()">
-        + Add asset
-    </button>
+    <button type="button" onclick="openModal('assetModal')">+ Add asset</button>
 
     <form action="{% url 'refresh_account_prices' account.id %}" method="post">
         {% csrf_token %}
         <button type="submit" class="btn-secondary">Refresh prices</button>
     </form>
 
-    <button type="button" class="btn-secondary" onclick="document.getElementById('accountSettingsModal').showModal()">
+    <button type="button" class="btn-secondary" onclick="openModal('accountSettingsModal')">
         Edit account
     </button>
 </div>
 
-<h3>Your assets</h3>
+<h2>Your assets</h2>
 
 <table>
     <thead>
@@ -33,7 +30,7 @@
             <th>Quantity</th>
             <th>Price</th>
             <th>Currency</th>
-            <th>Total value {{ display_currency }}</th>
+            <th>Total value ({{ display_currency }})</th>
             <th></th>
         </tr>
     </thead>
@@ -47,24 +44,28 @@
             <td>{{ asset.currency }}</td>
             <td>{{ asset.converted_total_value|floatformat:2 }}</td>
             <td>
-                <button type="button" class="btn-secondary" data-url="{% url 'edit_asset' asset.id %}"
-                    data-delete-url="{% url 'delete_asset' asset.id %}" data-name="{{ asset.name }}"
-                    data-ticker="{{ asset.ticker }}" data-quantity="{{ asset.quantity|floatformat:'-3u' }}"
-                    data-price="{{ asset.price|floatformat:2 }}" onclick="openEditAssetModal(this)">
+                <button type="button" class="btn-secondary"
+                    data-url="{% url 'edit_asset' asset.id %}"
+                    data-delete-url="{% url 'delete_asset' asset.id %}"
+                    data-name="{{ asset.name }}"
+                    data-ticker="{{ asset.ticker }}"
+                    data-quantity="{{ asset.quantity|floatformat:'-3u' }}"
+                    data-price="{{ asset.price|floatformat:2 }}"
+                    onclick="openEditAssetModal(this)">
                     Edit
                 </button>
             </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="7">No assets</td>
+            <td colspan="7">No assets yet.</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
 <dialog id="accountSettingsModal">
-    <h3>Manage account</h3>
+    <h3>Edit account</h3>
 
     <form action="{% url 'edit_account' account.id %}" method="post">
         {% csrf_token %}
@@ -76,9 +77,7 @@
         <div class="modal-footer">
             <div class="actions">
                 <button type="submit">Save</button>
-                <button type="button" class="btn-secondary" onclick="document.getElementById('accountSettingsModal').close()">
-                    Close
-                </button>
+                <button type="button" class="btn-secondary" onclick="closeModal('accountSettingsModal')">Cancel</button>
             </div>
             <button type="submit" form="deleteAccountForm" class="btn-danger">Delete</button>
         </div>
@@ -90,25 +89,20 @@
     </form>
 </dialog>
 
-<dialog id="assetModal">
+<dialog id="assetModal" {% if form.errors %}data-auto-open="true"{% endif %}>
     <h3>Add new asset</h3>
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <div class="actions">
-            <button type="submit">Save</button>
-            <button type="button" class="btn-secondary" onclick="document.getElementById('assetModal').close()">
-                Cancel
-            </button>
+        <div class="modal-footer">
+            <div class="actions">
+                <button type="submit">Save</button>
+                <button type="button" class="btn-secondary" onclick="closeModal('assetModal')">Cancel</button>
+            </div>
         </div>
     </form>
 </dialog>
-
-{% if form.errors %}
-<script>
-    document.getElementById('assetModal').showModal();
-</script>
-{% endif %}
 
 <dialog id="editAssetModal">
     <h3>Edit asset</h3>
@@ -135,9 +129,7 @@
         <div class="modal-footer">
             <div class="actions">
                 <button type="submit">Save</button>
-                <button type="button" class="btn-secondary" onclick="document.getElementById('editAssetModal').close()">
-                    Close
-                </button>
+                <button type="button" class="btn-secondary" onclick="closeModal('editAssetModal')">Cancel</button>
             </div>
             <button type="submit" form="deleteAssetForm" class="btn-danger">Delete</button>
         </div>
@@ -147,21 +139,4 @@
         {% csrf_token %}
     </form>
 </dialog>
-
-<script>
-    function openEditAssetModal(btn) {
-        document.getElementById('editAssetForm').action = btn.dataset.url;
-        document.getElementById('edit_asset_name').value = btn.dataset.name;
-        document.getElementById('edit_asset_ticker').value = btn.dataset.ticker;
-        document.getElementById('edit_asset_quantity').value = btn.dataset.quantity.replace(',', '.');
-        document.getElementById('edit_asset_price').value = btn.dataset.price.replace(',', '.');
-
-        const deleteForm = document.getElementById('deleteAssetForm');
-        deleteForm.action = btn.dataset.deleteUrl;
-        deleteForm.onsubmit = () => confirm(`Delete ${btn.dataset.name}?`);
-
-        document.getElementById('editAssetModal').showModal();
-    }
-</script>
-
 {% endblock %}

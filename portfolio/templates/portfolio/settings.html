@@ -1,14 +1,12 @@
 {% extends 'portfolio/base.html' %}
-{% block title %}Account Settings{% endblock %}
-{% block content %}
+{% block title %}Settings{% endblock %}
 
-<p><a href="{% url 'home' %}">&larr; Back to home</a></p>
+{% block content %}
+<p class="back-link"><a href="{% url 'home' %}">&larr; Back to accounts</a></p>
 
 <h1>Settings</h1>
 
-
-
-<section>
+<section class="card">
     <h2>Display Currency</h2>
     <form method="post">
         {% csrf_token %}
@@ -26,30 +24,27 @@
     </form>
 </section>
 
-
-
-<section>
+<section class="card">
     <h2>Danger Zone</h2>
-    <p>Deleting your account is permanent and will remove all your portfolios and assets.</p>
+    <p>Deleting your account is permanent and will remove all your accounts and assets.</p>
 
-    <button type="button" class="btn-danger" onclick="document.getElementById('deleteUserModal').showModal()">
-        Delete Account
+    <button type="button" class="btn-danger" onclick="openModal('deleteUserModal')">
+        Delete account
     </button>
 
     <dialog id="deleteUserModal">
-        <h3>Are you sure you want to delete your account?</h3>
+        <h3>Delete account?</h3>
         <p>This action cannot be undone. All your data will be permanently deleted.</p>
 
         <form action="{% url 'delete_user' %}" method="post">
             {% csrf_token %}
-            <div class="actions">
-                <button type="submit" class="btn-danger">Yes, permanently delete my account</button>
-                <button type="button" class="btn-secondary" onclick="document.getElementById('deleteUserModal').close()">
-                    Cancel
-                </button>
+            <div class="modal-footer">
+                <div class="actions">
+                    <button type="submit" class="btn-danger">Delete permanently</button>
+                    <button type="button" class="btn-secondary" onclick="closeModal('deleteUserModal')">Cancel</button>
+                </div>
             </div>
         </form>
     </dialog>
 </section>
-
 {% endblock %}
