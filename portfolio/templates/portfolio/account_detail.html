@@ -6,7 +6,7 @@
 <p><a href="{% url 'home' %}">&larr; Back to account list</a></p>
 
 <h2>Account: {{ account.name }}</h2>
-<p><strong>Total account value: {{ account.total_value|floatformat:2 }}</strong></p>
+<p><strong>Total account value: {{ account_total_value|floatformat:2 }} {{ display_currency }}</strong></p>
 
 <div class="actions">
     <button type="button" onclick="document.getElementById('assetModal').showModal()">
@@ -33,7 +33,7 @@
             <th>Quantity</th>
             <th>Price</th>
             <th>Currency</th>
-            <th>Total value</th>
+            <th>Total value {{ display_currency }}</th>
             <th></th>
         </tr>
     </thead>
@@ -52,7 +52,7 @@
             </td>
             <td>{{ asset.price|floatformat:2 }}</td>
             <td>{{ asset.currency }}</td>
-            <td>{{ asset.total_value|floatformat:2 }}</td>
+            <td>{{ asset.converted_total_value|floatformat:2 }}</td>
             <td>
                 <form action="{% url 'delete_asset' asset.id %}" method="post"
                     onsubmit="return confirm('Delete {{ asset.name|escapejs }}?');">

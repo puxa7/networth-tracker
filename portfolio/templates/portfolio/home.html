@@ -3,7 +3,7 @@
 {% block content %}
 
 <h1>Your accounts</h1>
-<h2>Net Worth: {{ net_worth|floatformat:2 }} USD</h2>
+<h2>Net Worth: {{ net_worth|floatformat:2 }} {{ display_currency }}</h2>
 
 <div class="actions">
     <a href="{% url 'add_account' %}" class="btn">+ Add account</a>

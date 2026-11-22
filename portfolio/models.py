@@ -1,6 +1,24 @@
 from django.db import models
 from django.conf import settings
 from decimal import Decimal
+from django.contrib.auth.models import User
+
+
+class UserProfile(models.Model):
+    CURRENCY_CHOICES = [
+        ("USD", "USD"),
+        ("PLN", "PLN"),
+        ("EUR", "EUR"),
+        ("GBP", "GBP"),
+    ]
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    display_currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default="USD")
+    
+    def __str__(self):
+        return f"{self.user.username} ({self.display_currency})"
+    
+
 
 class Account(models.Model):
     name = models.CharField(max_length=100)

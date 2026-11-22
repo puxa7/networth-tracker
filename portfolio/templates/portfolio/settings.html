@@ -7,6 +7,27 @@
 <h1>Settings</h1>
 
 
+
+<section>
+    <h2>Display Currency</h2>
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label for="id_display_currency">Net Worth currency:</label>
+            <select name="display_currency" id="id_display_currency">
+                {% for code, label in currencies %}
+                    <option value="{{ code }}" {% if profile.display_currency == code %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+        <button type="submit">Save currency</button>
+    </form>
+</section>
+
+
+
 <section>
     <h2>Danger Zone</h2>
     <p>Deleting your account is permanent and will remove all your portfolios and assets.</p>
