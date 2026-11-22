@@ -14,14 +14,15 @@
     </form>
 </div>
 
-<ul>
+<div class="accounts-grid">
     {% for account in accounts %}
-    <li>
-        <a href="{% url 'account_detail' account.id %}">{{ account.name }}</a>
-    </li>
+    <a href="{% url 'account_detail' account.id %}" class="account-card">
+        <span class="account-card-name">{{ account.name }}</span>
+        <span class="account-card-value">{{ account.converted_total_value|floatformat:2 }} {{ display_currency }}</span>
+    </a>
     {% empty %}
-    <li>You don't have any accounts yet. Add your first account below.</li>
+    <p>You don't have any accounts yet. Click "+ Add account" to create your first one.</p>
     {% endfor %}
-</ul>
+</div>
 
 {% endblock %}

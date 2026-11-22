@@ -41,16 +41,18 @@ def _get_exchange_rate(from_currency, to_currency, cache):
 def home_view(request):
     profile, _ = UserProfile.objects.get_or_create(user=request.user)
     target_currency = profile.display_currency
-    accounts = Account.objects.filter(
-        user=request.user).prefetch_related("asset_set")
+    accounts = list(Account.objects.filter(user=request.user).prefetch_related("asset_set"))
 
     rates_cache = {}
     net_worth = Decimal("0.00")
-    
+
     for account in accounts:
+        account_total = Decimal("0.00")
         for asset in account.asset_set.all():
             rate = _get_exchange_rate(asset.currency, target_currency, rates_cache)
-            net_worth += asset.total_value * rate
+            account_total += asset.total_value * rate
+        account.converted_total_value = account_total
+        net_worth += account_total
 
     return render(request, "portfolio/home.html", {
         "accounts": accounts,
@@ -218,3 +220,38 @@ def refresh_account_prices_view(request, pk):
     account = get_object_or_404(Account, id=pk, user=request.user)
     _update_assets_prices(account.asset_set.all())
     return redirect("account_detail", pk=account.id)
+
+
+@login_required
+@require_POST
+def edit_asset_view(request, pk):
+    asset = get_object_or_404(Asset, id=pk, account__user=request.user)
+
+    name = request.POST.get("name", "").strip()
+    ticker = request.POST.get("ticker", "").strip().upper()
+    quantity_raw = request.POST.get("quantity", "").strip()
+    price_raw = request.POST.get("price", "").strip()
+
+    if name:
+        asset.name = name
+    asset.ticker = ticker
+
+    if quantity_raw:
+        try:
+            qty = Decimal(quantity_raw)
+            if qty > 0:
+                asset.quantity = qty
+        except Exception:
+            pass
+
+    if price_raw:
+        try:
+            asset.price = Decimal(price_raw)
+        except Exception:
+            pass
+        asset.save()
+    else:
+        asset.save()
+        _update_assets_prices([asset])
+
+    return redirect("account_detail", pk=asset.account.id)

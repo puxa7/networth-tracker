@@ -32,7 +32,7 @@
     <h2>Danger Zone</h2>
     <p>Deleting your account is permanent and will remove all your portfolios and assets.</p>
 
-    <button type="button" onclick="document.getElementById('deleteUserModal').showModal()">
+    <button type="button" class="btn-danger" onclick="document.getElementById('deleteUserModal').showModal()">
         Delete Account
     </button>
 
@@ -42,10 +42,12 @@
 
         <form action="{% url 'delete_user' %}" method="post">
             {% csrf_token %}
-            <button type="submit">Yes, permanently delete my account</button>
-            <button type="button" onclick="document.getElementById('deleteUserModal').close()">
-                Cancel
-            </button>
+            <div class="actions">
+                <button type="submit" class="btn-danger">Yes, permanently delete my account</button>
+                <button type="button" class="btn-secondary" onclick="document.getElementById('deleteUserModal').close()">
+                    Cancel
+                </button>
+            </div>
         </form>
     </dialog>
 </section>

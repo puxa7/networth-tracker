@@ -4,12 +4,12 @@
 
 <h2>Add account</h2>
 
+<a href="{% url 'home' %}">← Back to home</a>
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Create account</button>
 </form>
-
-<a href="{% url 'home' %}">Cancel</a>
 
 {% endblock %}

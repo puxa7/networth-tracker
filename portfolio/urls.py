@@ -25,4 +25,5 @@ urlpatterns = [
     path("assets/<int:pk>/edit-quantity/", views.edit_asset_quantity_view, name="edit_asset_quantity"),
     path("assets/<int:pk>/delete/", views.delete_asset_view, name="delete_asset"),
     path("accounts/<int:pk>/refresh-prices/", views.refresh_account_prices_view, name="refresh_account_prices"),
+    path("asset/<int:pk>/edit/", views.edit_asset_view, name="edit_asset"),
 ]

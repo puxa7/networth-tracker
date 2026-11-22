@@ -129,3 +129,57 @@ a.btn:hover {
 main > form {
     max-width: 360px;
 }
+
+
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.modal-footer .actions {
+    margin: 0;
+}
+
+section > form {
+    max-width: 220px;
+}
+
+.accounts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.account-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px 18px;
+    color: #0f172a;
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.account-card:hover {
+    border-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+    text-decoration: none;
+}
+
+.account-card-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.account-card-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2563eb;
+}
