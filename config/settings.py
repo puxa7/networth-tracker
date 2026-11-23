@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": 'django.db.backends.postgresql',
-        "NAME": os.environ['DB_NAME'],
-        "USER": os.environ['DB_USER'],
-        "PASSWORD": os.environ['DB_PASSWORD'],
-        "HOST": os.environ['DB_HOST'],
-        "PORT": os.environ['DB_PORT'],
+        "NAME": os.environ['POSTGRES_DB'],
+        "USER": os.environ['POSTGRES_USER'],
+        "PASSWORD": os.environ['POSTGRES_PASSWORD'],
+        "HOST": os.environ.get("DB_HOST", "db"),
+        "PORT": os.environ.get("DB_PORT", "5432"),
     }
 }
 
@@ -121,7 +121,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+CSRF_TRUSTED_ORIGINS = [
+    os.environ["CSRF_TRUSTED_ORIGIN"]
+]
 
 
 # Email

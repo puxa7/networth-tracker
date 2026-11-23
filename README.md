@@ -1,7 +1,7 @@
-# Portfolio Tracker
+# Networth Tracker
 
 ## What does this project do?
-Portfolio Tracker is a web application built with Django that helps users track their accounts and calculate their total net worth in one place. It is especially useful for combining asset information from multiple brokerage accounts. Because the code is open source, you can self-host it and keep your sensitive financial data under your own control instead of trusting a third-party provider. Users can manage their accounts and assets, fetch live market prices, and view everything converted into their preferred display currency.
+Networth Tracker is a web application built with Django that helps users track their accounts and calculate their total net worth in one place. It is especially useful for combining asset information from multiple brokerage accounts. Because the code is open source, you can self-host it and keep your sensitive financial data under your own control instead of trusting a third-party provider. Users can manage their accounts and assets, fetch live market prices, and view everything converted into their preferred display currency.
 
 ### Main features
 - **User authentication** – registration, login, logout, and account deletion.
