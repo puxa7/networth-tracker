@@ -31,7 +31,7 @@ Networth Tracker is a web application built with Django that helps users track t
 
 ## Where can I watch it live?
 The live version of the app is available here:  
-👉 **[Live Demo](https://app-url-here.com)**
+👉 **[Live Demo](http://srv61.mikr.us:30191/)**
 
 
 
