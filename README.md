@@ -37,8 +37,56 @@ The live version of the app is available here:
 
 ---
 
+
+
+## Prerequisites
+
+Before running the project locally, make sure you have the following installed:
+
+- [Git](https://git-scm.com/)
+- [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/) (v2+)
+
 ## How do I run it?
 
-### Prerequisites
+1. **Clone the repository**
+
+   ```bash
+   git clone [https://github.com/YOUR_USERNAME/networth-tracker.git](https://github.com/YOUR_USERNAME/networth-tracker.git)
+   cd networth-tracker
+   ```
+
+2. **Configure environment variables**
+
+   Create a `.env` file based on the provided template and fill in your values (such as `SECRET_KEY`, database credentials, and `ADMIN_URL`):
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   > **Note:** For local development, keep `APP_PORT=8000`, `DEBUG=True`, and `CSRF_TRUSTED_ORIGINS=http://localhost:8000`.
+
+3. **Build and start the containers**
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+4. **Apply database migrations and collect static files**
+
+   ```bash
+   docker compose exec web python manage.py migrate
+   docker compose exec web python manage.py collectstatic --noinput
+   ```
+
+5. **Create an admin account (optional)**
+
+   ```bash
+   docker compose exec web python manage.py createsuperuser
+   ```
+
+6. **Access the application**
+
+   - **App:** `http://localhost:8000`
+   - **Admin panel:** `http://localhost:8000/<your-ADMIN_URL>`
 
 
