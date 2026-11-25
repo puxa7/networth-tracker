@@ -51,7 +51,7 @@ Before running the project locally, make sure you have the following installed:
 1. **Clone the repository**
 
    ```bash
-   git clone [https://github.com/YOUR_USERNAME/networth-tracker.git](https://github.com/YOUR_USERNAME/networth-tracker.git)
+   git clone https://github.com/puxa7/networth-tracker.git
    cd networth-tracker
    ```
 
